@@ -2,7 +2,6 @@ package com.prmorais.crudspring.service;
 
 import com.prmorais.crudspring.dto.CourseDTO;
 import com.prmorais.crudspring.dto.mapper.CourseMapper;
-import com.prmorais.crudspring.enums.Category;
 import com.prmorais.crudspring.exception.RecordNotFoundException;
 import com.prmorais.crudspring.repository.CourseRepository;
 import jakarta.validation.Valid;
@@ -10,7 +9,6 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 
@@ -32,7 +30,7 @@ public class CourseService {
         .toList();
   }
 
-  public CourseDTO findById(@PathVariable @NotNull @Positive Long id) {
+  public CourseDTO findById(@NotNull @Positive Long id) {
     return courseRepository.findById(id)
         .map(courseMapper::toDTO)
         .orElseThrow(() -> new RecordNotFoundException(id));
@@ -46,7 +44,7 @@ public class CourseService {
     return courseRepository.findById(id)
         .map(courseFound -> {
           courseFound.setName(courseDTO.name());
-          courseFound.setCategory(Category.FRONTEND);
+          courseFound.setCategory(courseMapper.convertCategoryValue(courseDTO.category()));
           return courseMapper.toDTO(courseRepository.save(courseFound));
         })
         .orElseThrow(() -> new RecordNotFoundException(id));
