@@ -2,6 +2,7 @@ package com.prmorais.crudspring;
 
 import com.prmorais.crudspring.enums.Category;
 import com.prmorais.crudspring.model.Course;
+import com.prmorais.crudspring.model.Lesson;
 import com.prmorais.crudspring.repository.CourseRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -23,6 +24,12 @@ public class CrudSpringApplication {
       Course c = new Course();
       c.setName("Angular com Spring");
       c.setCategory(Category.FRONTEND);
+
+      Lesson l = new Lesson();
+      l.setName("Introdução");
+      l.setYoutubeUrl("jODKlKKpe");
+      l.setCourse(c);
+      c.getLessons().add(l);
 
       courseRepository.save(c);
     };
