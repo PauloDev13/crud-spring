@@ -3,6 +3,7 @@ package com.prmorais.crudspring.service;
 import com.prmorais.crudspring.dto.CourseDTO;
 import com.prmorais.crudspring.dto.mapper.CourseMapper;
 import com.prmorais.crudspring.exception.RecordNotFoundException;
+import com.prmorais.crudspring.model.Course;
 import com.prmorais.crudspring.repository.CourseRepository;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
@@ -43,8 +44,13 @@ public class CourseService {
   public CourseDTO update(@NotNull @Positive Long id, @Valid @NotNull CourseDTO courseDTO) {
     return courseRepository.findById(id)
         .map(courseFound -> {
+          Course course = courseMapper.toEntity(courseDTO);
+
           courseFound.setName(courseDTO.name());
           courseFound.setCategory(courseMapper.convertCategoryValue(courseDTO.category()));
+          courseFound.getLessons().clear();
+
+          course.getLessons().forEach(courseFound.getLessons()::add);
           return courseMapper.toDTO(courseRepository.save(courseFound));
         })
         .orElseThrow(() -> new RecordNotFoundException(id));
