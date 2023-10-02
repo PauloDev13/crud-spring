@@ -39,7 +39,7 @@ public class CourseController {
 
     @PutMapping("/{id}")
       public CourseDTO update(@PathVariable @NotNull @Positive Long id,
-                           @RequestBody @NotNull @Valid CourseDTO courseDTO ) {
+                           @RequestBody @Valid @NotNull CourseDTO courseDTO ) {
         return courseService.update(id, courseDTO);
     }
 
