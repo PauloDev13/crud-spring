@@ -1,15 +1,16 @@
 package com.prmorais.crudspring.controller;
 
 import com.prmorais.crudspring.dto.CourseDTO;
+import com.prmorais.crudspring.dto.CoursePageDTO;
 import com.prmorais.crudspring.service.CourseService;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.PositiveOrZero;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @Validated
 @RestController
@@ -22,9 +23,16 @@ public class CourseController {
     }
 
     @GetMapping
-    public List<CourseDTO> list() {
-        return courseService.list();
+    public CoursePageDTO list(
+        @RequestParam @PositiveOrZero int page,
+        @RequestParam @Positive @Max(100) int size)
+    {
+      return courseService.list(page, size);
     }
+    /*  @GetMapping
+        public List<CourseDTO> list() {
+        return courseService.list();
+    }*/
 
     @GetMapping("/{id}")
     public CourseDTO findById(@PathVariable @NotNull @Positive Long id) {
