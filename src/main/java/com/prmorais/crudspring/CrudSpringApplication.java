@@ -8,6 +8,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Profile;
 
 @SpringBootApplication
 public class CrudSpringApplication {
@@ -17,11 +18,12 @@ public class CrudSpringApplication {
   }
 
   @Bean
+  @Profile("test")
   CommandLineRunner initDatabase(CourseRepository courseRepository) {
     return args -> {
       courseRepository.deleteAll();
 
-      for (int i = 0; i < 20; i++) {
+//      for (int i = 0; i < 20; i++) {
         Course c = new Course();
         c.setName("Angular com Spring");
         c.setCategory(Category.FRONTEND);
@@ -40,7 +42,7 @@ public class CrudSpringApplication {
 
         courseRepository.save(c);
 
-      }
+//      }
     };
   }
 }
