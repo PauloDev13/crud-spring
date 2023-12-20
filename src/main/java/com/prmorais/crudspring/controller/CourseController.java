@@ -24,15 +24,11 @@ public class CourseController {
 
     @GetMapping
     public CoursePageDTO list(
-        @RequestParam @PositiveOrZero int page,
-        @RequestParam @Positive @Max(100) int size)
+        @RequestParam(defaultValue = "0") @PositiveOrZero int page,
+        @RequestParam(defaultValue = "10") @Positive @Max(100) int size)
     {
       return courseService.list(page, size);
     }
-    /*  @GetMapping
-        public List<CourseDTO> list() {
-        return courseService.list();
-    }*/
 
     @GetMapping("/{id}")
     public CourseDTO findById(@PathVariable @NotNull @Positive Long id) {
