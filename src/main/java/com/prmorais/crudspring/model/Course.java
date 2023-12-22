@@ -20,8 +20,9 @@ import java.util.List;
 
 @Data
 @Entity
+@Table(name = "course")
 //Exclui o registro logicamente sem excluí-lo da tabela mudando a coluna status
-@SQLDelete(sql = "UPDATE Course SET status = 'Inativo' WHERE id = ?")
+@SQLDelete(sql = "UPDATE course SET status = 'Inativo' WHERE id = ?")
 //Filtra os registros com status ativo
 @Where(clause = "status = 'Ativo'")
 public class Course {
